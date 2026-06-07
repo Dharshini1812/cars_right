@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:cars_right/features/offline_camera/presentation/pages/offline_bottom_sheet.dart';
 import 'package:cars_right/features/login/presentation/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/theme/app_theme.dart';
 import '../widgets/offline_camera_tile.dart';
@@ -287,7 +286,7 @@ class _OtpSentBanner extends StatelessWidget {
           const Icon(Icons.check_circle_rounded,
               color: Color(0xff064f86), size: 20),
           const SizedBox(width: 8),
-          Text(
+          const Text(
             'OTP sent to  ',
             style: TextStyle(
               fontSize: 13,

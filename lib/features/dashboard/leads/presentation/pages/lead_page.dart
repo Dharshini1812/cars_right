@@ -1,11 +1,11 @@
 import 'package:cars_right/core/theme/app_theme.dart';
 import 'package:cars_right/core/widgets/succes.dart';
 import 'package:cars_right/features/dashboard/home/data/lead_model.dart';
-import 'package:cars_right/features/dashboard/home/presentation/pages/leads/lead_details_page.dart';
-import 'package:cars_right/features/dashboard/home/presentation/widgets/home/leads/lead_card.dart';
-import 'package:cars_right/features/dashboard/home/presentation/widgets/home/leads/lead_filter_card.dart';
-import 'package:cars_right/features/dashboard/home/presentation/widgets/home/leads/lead_search_bar.dart';
-import 'package:cars_right/features/dashboard/home/presentation/widgets/home/leads/schedule_bottom_sheet.dart';
+import 'package:cars_right/features/dashboard/leads/presentation/pages/lead_details_page.dart';
+import 'package:cars_right/features/dashboard/leads/presentation/widgets/lead_card.dart';
+import 'package:cars_right/features/dashboard/leads/presentation/widgets/lead_filter_card.dart';
+import 'package:cars_right/features/dashboard/leads/presentation/widgets/lead_search_bar.dart';
+import 'package:cars_right/features/dashboard/leads/presentation/widgets/schedule_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class LeadsScreen extends StatefulWidget {
@@ -150,7 +150,7 @@ class _LeadsScreenState extends State<LeadsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> _handlePickup(int index) async {
+    Future<void> handlePickup(int index) async {
       setState(() {
         leads[index] = leads[index].copyWith(
           isPickedUp: true,
@@ -184,13 +184,14 @@ class _LeadsScreenState extends State<LeadsScreen> {
         child: Stack(
           children: [
             SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
+              padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _header(),
                   const SizedBox(height: 18),
                   LeadSearchBar(
+                    hinttext: 'Search vehicle, customer, reg no',
                     controller: searchController,
                     onChanged: (value) {
                       setState(() {
@@ -200,6 +201,7 @@ class _LeadsScreenState extends State<LeadsScreen> {
                   ),
                   const SizedBox(height: 16),
                   LeadFilterCard(
+                    isComplete: false,
                     fromDate: fromDate,
                     toDate: toDate,
                     selectedPriority: selectedPriority,
@@ -237,7 +239,7 @@ class _LeadsScreenState extends State<LeadsScreen> {
                                     ),
                                   );
                                 } else {
-                                  _handlePickup(originalIndex);
+                                  handlePickup(originalIndex);
                                 }
                               }
                             : null,

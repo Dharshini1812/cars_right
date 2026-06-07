@@ -1,9 +1,8 @@
 import 'package:cars_right/core/theme/app_theme.dart';
 import 'package:cars_right/features/dashboard/home/data/lead_model.dart';
-import 'package:cars_right/features/dashboard/home/presentation/widgets/home/leads/mandatory_photos_card.dart';
-import 'package:cars_right/features/dashboard/home/presentation/widgets/home/leads/rating_row.dart';
-import 'package:cars_right/features/dashboard/home/presentation/widgets/home/leads/valuation_summary_card.dart';
-import 'package:cars_right/features/dashboard/home/presentation/widgets/home/valuation_bucket_card.dart';
+import 'package:cars_right/features/dashboard/leads/presentation/widgets/mandatory_photos_card.dart';
+import 'package:cars_right/features/dashboard/leads/presentation/widgets/rating_row.dart';
+import 'package:cars_right/features/dashboard/leads/presentation/widgets/valuation_summary_card.dart';
 import 'package:flutter/material.dart';
 
 class InspectionFormBottomSheet extends StatelessWidget {

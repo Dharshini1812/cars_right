@@ -1,5 +1,8 @@
+import 'package:cars_right/core/widgets/common_dashboard.dart';
+import 'package:cars_right/features/dashboard/completed/presentation/pages/completed_page.dart';
 import 'package:cars_right/features/dashboard/home/presentation/pages/home_page.dart';
-import 'package:cars_right/features/dashboard/home/presentation/pages/leads/lead_page.dart';
+import 'package:cars_right/features/dashboard/leads/presentation/pages/lead_page.dart';
+import 'package:cars_right/features/dashboard/pending/presenattion/pages/pending_page.dart';
 import 'package:flutter/material.dart';
 import 'custom_bottom_nav.dart';
 
@@ -16,14 +19,14 @@ class _BottomNavPageState extends State<BottomNavPage> {
   final pages = const [
     HomeScreen(),
     LeadsScreen(),
-    Placeholder(),
-    Placeholder(),
-    Placeholder()
+    PendingScreen(),
+    CompletedScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const CommonDashboardAppBar(),
       backgroundColor: const Color(0xffF5F6FA),
       body: IndexedStack(
         index: currentIndex,

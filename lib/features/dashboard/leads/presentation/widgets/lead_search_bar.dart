@@ -2,6 +2,7 @@ import 'package:cars_right/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class LeadSearchBar extends StatelessWidget {
+  final String? hinttext;
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
 
@@ -9,6 +10,7 @@ class LeadSearchBar extends StatelessWidget {
     super.key,
     required this.controller,
     required this.onChanged,
+    required this.hinttext,
   });
 
   @override
@@ -23,7 +25,7 @@ class LeadSearchBar extends StatelessWidget {
         color: Color(0xFF1E293B),
       ),
       decoration: InputDecoration(
-        hintText: 'Search vehicle, customer, reg no',
+        hintText: hinttext,
         hintStyle: const TextStyle(
           fontSize: 15,
           fontWeight: FontWeight.w600,

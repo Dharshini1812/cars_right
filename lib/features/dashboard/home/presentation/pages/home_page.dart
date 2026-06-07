@@ -1,8 +1,8 @@
 import 'package:cars_right/core/theme/app_theme.dart';
-import 'package:cars_right/features/dashboard/home/presentation/widgets/home/header_count_card.dart';
-import 'package:cars_right/features/dashboard/home/presentation/widgets/home/next_pending_lead_card.dart';
-import 'package:cars_right/features/dashboard/home/presentation/widgets/home/returned_lead_card.dart';
-import 'package:cars_right/features/dashboard/home/presentation/widgets/home/valuation_bucket_card.dart';
+import 'package:cars_right/features/dashboard/home/presentation/widgets/header_count_card.dart';
+import 'package:cars_right/features/dashboard/home/presentation/widgets/next_pending_lead_card.dart';
+import 'package:cars_right/features/dashboard/home/presentation/widgets/returned_lead_card.dart';
+import 'package:cars_right/features/dashboard/home/presentation/widgets/valuation_bucket_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,65 +17,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.primary,
-        toolbarHeight: 70,
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              width: 45,
-              height: 45,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(18),
-              ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  const Icon(
-                    Icons.notifications,
-                    color: Colors.white,
-                  ),
-                  Positioned(
-                    right: 12,
-                    top: 12,
-                    child: Container(
-                      width: 10,
-                      height: 10,
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Text(
-              'Dashboard',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Container(
-              width: 45,
-              height: 45,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(18),
-              ),
-              child: const Icon(
-                Icons.person,
-                color: Colors.white,
-              ),
-            ),
-          ],
-        ),
-      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [

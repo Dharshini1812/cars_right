@@ -1,5 +1,5 @@
 import 'package:cars_right/core/theme/app_theme.dart';
-import 'package:cars_right/features/dashboard/home/presentation/pages/leads/inspection_form_bottom_sheet.dart';
+import 'package:cars_right/features/dashboard/leads/presentation/pages/inspection_form_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:cars_right/features/dashboard/home/data/lead_model.dart';
 

@@ -58,12 +58,12 @@ class BottomNavBar extends StatelessWidget {
               isActive: currentIndex == 3,
               onTap: () => onTap(3),
             ),
-            _NavItem(
-              icon: Icons.person_rounded,
-              label: 'Profile',
-              isActive: currentIndex == 4,
-              onTap: () => onTap(4),
-            ),
+            // _NavItem(
+            //   icon: Icons.person_rounded,
+            //   label: 'Profile',
+            //   isActive: currentIndex == 4,
+            //   onTap: () => onTap(4),
+            // ),
           ],
         ),
       ),

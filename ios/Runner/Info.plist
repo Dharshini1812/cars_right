@@ -44,6 +44,11 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera access is needed to capture vehicle photos.</string>
+
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo library access is needed to upload vehicle photos.</string>
 	<true/>
 </dict>
 </plist>

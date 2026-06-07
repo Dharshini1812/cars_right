@@ -43,10 +43,10 @@ class OfflineCameraTile extends StatelessWidget {
             const SizedBox(width: 14),
 
             // Text
-            Expanded(
+            const Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
                     'Offline Camera Inspection',
                     style: TextStyle(

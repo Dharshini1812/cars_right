@@ -2,6 +2,7 @@ import 'package:cars_right/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class LeadFilterCard extends StatelessWidget {
+  final bool? isComplete;
   final DateTime? fromDate;
   final DateTime? toDate;
   final String selectedPriority;
@@ -17,6 +18,7 @@ class LeadFilterCard extends StatelessWidget {
     required this.onFromTap,
     required this.onToTap,
     required this.onPriorityChanged,
+    required this.isComplete,
   });
 
   String _formatDate(DateTime? date) {
@@ -67,12 +69,19 @@ class LeadFilterCard extends StatelessWidget {
           const SizedBox(height: 10),
           Wrap(
             spacing: 8,
-            children: [
-              _chip('All'),
-              _chip('High'),
-              _chip('Medium'),
-              _chip('Low'),
-            ],
+            runSpacing: 8,
+            children: isComplete == true
+                ? [
+                    _chip('All'),
+                    _chip('Approved'),
+                    _chip('Review'),
+                  ]
+                : [
+                    _chip('All'),
+                    _chip('High'),
+                    _chip('Medium'),
+                    _chip('Low'),
+                  ],
           ),
         ],
       ),
