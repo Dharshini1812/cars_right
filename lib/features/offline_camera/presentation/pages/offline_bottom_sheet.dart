@@ -93,13 +93,13 @@ class OfflineCameraBottomSheet extends StatelessWidget {
             title ?? '',
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 18,
+              fontSize: 16,
               letterSpacing: .5,
             ),
           ),
           Text(
             subTitle ?? '',
-            style: const TextStyle(color: AppColors.textGrey, fontSize: 13),
+            style: const TextStyle(color: AppColors.textGrey, fontSize: 12),
           )
         ],
       ),

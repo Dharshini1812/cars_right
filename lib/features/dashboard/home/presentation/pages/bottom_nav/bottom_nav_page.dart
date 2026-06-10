@@ -1,4 +1,4 @@
-import 'package:cars_right/core/widgets/common_dashboard.dart';
+import 'package:cars_right/core/widgets/common_appbar.dart';
 import 'package:cars_right/features/dashboard/completed/presentation/pages/completed_page.dart';
 import 'package:cars_right/features/dashboard/home/presentation/pages/home_page.dart';
 import 'package:cars_right/features/dashboard/leads/presentation/pages/lead_page.dart';

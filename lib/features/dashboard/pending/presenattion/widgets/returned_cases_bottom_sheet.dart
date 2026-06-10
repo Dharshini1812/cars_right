@@ -1,3 +1,4 @@
+import 'package:cars_right/core/widgets/header_bottom.dart';
 import 'package:flutter/material.dart';
 
 class ReturnedCasesBottomSheet extends StatelessWidget {
@@ -20,8 +21,10 @@ class ReturnedCasesBottomSheet extends StatelessWidget {
           child: ListView(
             controller: scrollController,
             children: const [
-              ReturnedCasesHeader(),
-              SizedBox(height: 24),
+              Header(
+                title: 'Returned Cases',
+                subTitle: '2 leads need correction',
+              ),
               Padding(
                 padding: EdgeInsets.all(12),
                 child: Column(
@@ -48,63 +51,6 @@ class ReturnedCasesBottomSheet extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class ReturnedCasesHeader extends StatelessWidget {
-  const ReturnedCasesHeader({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(8),
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(20))),
-      child: Row(
-        children: [
-          InkWell(
-            onTap: () => Navigator.pop(context),
-            child: Container(
-              height: 45,
-              width: 45,
-              decoration: BoxDecoration(
-                color: const Color(0xFFEAF2FA),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: const Icon(
-                Icons.arrow_back_ios_new_rounded,
-                color: Color(0xFF07558E),
-                size: 20,
-              ),
-            ),
-          ),
-          const SizedBox(width: 18),
-          const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Returned Cases',
-                style: TextStyle(
-                  color: Color(0xFF07558E),
-                  fontSize: 23,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              SizedBox(height: 4),
-              Text(
-                '2 leads need correction',
-                style: TextStyle(
-                  color: Color(0xFF667085),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }

@@ -14,8 +14,25 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  bool isLoading = true;
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(const Duration(seconds: 2), () {
+      if (!mounted) return;
+
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const DashboardSkeleton();
+    }
     return Scaffold(
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -43,17 +60,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           const SizedBox(height: 15),
           // Header Row
           const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: HeaderCount(
-                    data: 'NEW LEADS', count: 150, color: AppColors.primary),
-              ),
-              Expanded(
-                  child: HeaderCount(
-                      data: 'PENDING', count: 72, color: Colors.red)),
-              Expanded(
-                  child: HeaderCount(
-                      data: 'RETURNED', count: 2, color: AppColors.primary)),
+              HeaderCount(
+                  data: 'NEW LEADS', count: 150, color: AppColors.primary),
+              HeaderCount(data: 'PENDING', count: 72, color: Colors.red),
+              HeaderCount(data: 'RETURNED', count: 2, color: AppColors.primary),
             ],
           ),
           const SizedBox(height: 15),
@@ -88,6 +100,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 title: 'Case & RC',
                 subtitle: 'Customer, vehicle and documents',
                 onTap: () {},
+                isNoti: false,
               ),
               const SizedBox(height: 16),
               PendingFlowTile(
@@ -95,6 +108,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 title: 'Checkpoints',
                 subtitle: 'Body, engine, interior, tyres',
                 onTap: () {},
+                isNoti: false,
               ),
               const SizedBox(height: 16),
               PendingFlowTile(
@@ -102,10 +116,51 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 title: 'Offline Photos',
                 subtitle: 'Vehicle type based image route',
                 onTap: () {},
+                isNoti: false,
               ),
             ],
           )
         ],
+      ),
+    );
+  }
+}
+
+class DashboardSkeleton extends StatelessWidget {
+  const DashboardSkeleton({super.key});
+
+  Widget _box({
+    double height = 20,
+    double width = double.infinity,
+  }) {
+    return Container(
+      height: height,
+      width: width,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade200,
+        borderRadius: BorderRadius.circular(12),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFEFF4F8),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            const SizedBox(height: 60),
+            _box(height: 70),
+            const SizedBox(height: 20),
+            _box(height: 120),
+            const SizedBox(height: 20),
+            _box(height: 100),
+            const SizedBox(height: 20),
+            _box(height: 100),
+          ],
+        ),
       ),
     );
   }

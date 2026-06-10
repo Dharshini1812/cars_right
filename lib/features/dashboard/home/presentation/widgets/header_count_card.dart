@@ -6,6 +6,7 @@ class HeaderCount extends ConsumerWidget {
   final String? data;
   final int? count;
   final Color? color;
+
   const HeaderCount({
     super.key,
     required this.data,
@@ -19,8 +20,7 @@ class HeaderCount extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          padding: const EdgeInsets.all(4),
-          width: 120,
+          padding: const EdgeInsets.fromLTRB(5, 5, 40, 5),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: const BorderRadius.all(Radius.circular(14)),
@@ -60,13 +60,17 @@ class PendingFlowTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final VoidCallback? onTap;
+  final bool? isNoti;
+  final String? notiSec;
 
   const PendingFlowTile({
     super.key,
     required this.icon,
     required this.title,
     required this.subtitle,
+    required this.isNoti,
     this.onTap,
+    this.notiSec,
   });
 
   @override
@@ -111,7 +115,6 @@ class PendingFlowTile extends StatelessWidget {
                       color: Color(0xFF1E293B),
                     ),
                   ),
-                  const SizedBox(height: 6),
                   Text(
                     subtitle,
                     style: const TextStyle(
@@ -120,6 +123,15 @@ class PendingFlowTile extends StatelessWidget {
                       color: Color(0xFF667085),
                     ),
                   ),
+                  if (isNoti == true)
+                    Text(
+                      notiSec ?? '',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF667085),
+                      ),
+                    ),
                 ],
               ),
             ),

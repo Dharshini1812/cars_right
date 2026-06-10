@@ -35,27 +35,29 @@ class Header extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title ?? '',
-                style: const TextStyle(
-                  color: Color(0xFF07558E),
-                  fontSize: 22,
-                  fontWeight: FontWeight.w900,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title ?? '',
+                  style: const TextStyle(
+                    color: Color(0xFF07558E),
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                subTitle ?? '',
-                style: const TextStyle(
-                  color: Color(0xFF667085),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
+                const SizedBox(height: 4),
+                Text(
+                  subTitle ?? '',
+                  style: const TextStyle(
+                    color: Color(0xFF667085),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

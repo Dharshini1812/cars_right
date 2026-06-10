@@ -26,6 +26,18 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
 
   final _phoneCtrl = TextEditingController();
   final _phoneFocus = FocusNode();
+  bool _isPhoneValid = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _phoneCtrl.addListener(() {
+      setState(() {
+        _isPhoneValid = _phoneCtrl.text.length == 10;
+      });
+    });
+  }
 
   @override
   void dispose() {
@@ -60,91 +72,97 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 16),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Spacer(),
 
-              // ── Back button ─────────────────────────────────────────────
-              GestureDetector(
-                onTap: () => Navigator.maybePop(context),
-                child: const Icon(Icons.chevron_left_rounded,
-                    size: 40, color: AppColors.textDark),
-              ),
+                        // ── Shield icon ─────────────────────────────────────────────
+                        const Center(child: ShieldIcon()),
 
-              const SizedBox(height: 36),
+                        const SizedBox(height: 20),
 
-              // ── Shield icon ─────────────────────────────────────────────
-              const Center(child: ShieldIcon()),
+                        // ── Title ───────────────────────────────────────────────────
+                        const Center(
+                          child: Text(
+                            'Welcome Back',
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.textDark,
+                            ),
+                          ),
+                        ),
 
-              const SizedBox(height: 20),
+                        const SizedBox(height: 8),
 
-              // ── Title ───────────────────────────────────────────────────
-              const Center(
-                child: Text(
-                  'Welcome Back',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.textDark,
+                        // ── Subtitle ────────────────────────────────────────────────
+                        const Center(
+                          child: Text(
+                            'Log in with OTP to manage inspections, leads,\nreports, and valuation tasks.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13.5,
+                              color: AppColors.textGrey,
+                              height: 1.55,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 36),
+
+                        // ── Phone number label ──────────────────────────────────────
+                        const Text(
+                          'Phone Number',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textDark,
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        // ── Phone input ─────────────────────────────────────────────
+                        _PhoneField(
+                          controller: _phoneCtrl,
+                          focusNode: _phoneFocus,
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        // ── Send OTP button ─────────────────────────────────────────
+                        _PrimaryButton(
+                          label: 'Send OTP',
+                          isLoading: state.isLoading,
+                          isEnabled: _isPhoneValid,
+                          onTap: _sendOtp,
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        // ── Offline camera tile ─────────────────────────────────────
+                        OfflineCameraTile(
+                            onTap: () => _showOfflineCameraSheet(context)),
+
+                        Spacer(),
+                      ],
+                    ),
                   ),
                 ),
               ),
-
-              const SizedBox(height: 8),
-
-              // ── Subtitle ────────────────────────────────────────────────
-              const Center(
-                child: Text(
-                  'Log in with OTP to manage inspections, leads,\nreports, and valuation tasks.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 13.5,
-                    color: AppColors.textGrey,
-                    height: 1.55,
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 36),
-
-              // ── Phone number label ──────────────────────────────────────
-              const Text(
-                'Phone Number',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textDark,
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              // ── Phone input ─────────────────────────────────────────────
-              _PhoneField(
-                controller: _phoneCtrl,
-                focusNode: _phoneFocus,
-              ),
-
-              const SizedBox(height: 24),
-
-              // ── Send OTP button ─────────────────────────────────────────
-              _PrimaryButton(
-                label: 'Send OTP',
-                isLoading: state.isLoading,
-                onTap: _sendOtp,
-              ),
-
-              const SizedBox(height: 24),
-
-              // ── Offline camera tile ─────────────────────────────────────
-              OfflineCameraTile(onTap: () => _showOfflineCameraSheet(context)),
-
-              const SizedBox(height: 32),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
@@ -235,30 +253,33 @@ class _PrimaryButton extends StatelessWidget {
   final String label;
   final bool isLoading;
   final VoidCallback onTap;
+  final bool isEnabled;
 
   const _PrimaryButton({
     required this.label,
     required this.isLoading,
+    required this.isEnabled,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: isLoading ? null : onTap,
+      onTap: (!isLoading && isEnabled) ? onTap : null,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 18),
         decoration: BoxDecoration(
-          color: AppColors.loginColor,
+          color: isEnabled ? AppColors.loginColor : Colors.grey.shade300,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
-            BoxShadow(
-              color: AppColors.loginColor.withOpacity(0.35),
-              blurRadius: 25,
-              offset: const Offset(0, 8),
-            ),
+            if (isEnabled)
+              BoxShadow(
+                color: AppColors.loginColor.withOpacity(0.35),
+                blurRadius: 25,
+                offset: const Offset(0, 8),
+              ),
           ],
         ),
         child: Center(

@@ -1,4 +1,6 @@
 import 'package:cars_right/core/theme/app_theme.dart';
+import 'package:cars_right/features/dashboard/home/presentation/widgets/noti.dart';
+import 'package:cars_right/features/dashboard/home/presentation/widgets/profile.dart';
 import 'package:flutter/material.dart';
 
 class CommonDashboardAppBar extends StatelessWidget
@@ -19,6 +21,15 @@ class CommonDashboardAppBar extends StatelessWidget
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _iconBox(
+            onTap: () {
+              showModalBottomSheet(
+                backgroundColor: Colors.transparent,
+                barrierColor: Colors.black.withOpacity(0.35),
+                context: context,
+                builder: (_) => const Notifications(),
+                isScrollControlled: true,
+              );
+            },
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -47,22 +58,40 @@ class CommonDashboardAppBar extends StatelessWidget
             ),
           ),
           _iconBox(
-            child: const Icon(Icons.person, color: Colors.white),
+            onTap: () {
+              showModalBottomSheet(
+                backgroundColor: Colors.transparent,
+                barrierColor: Colors.black.withOpacity(0.35),
+                context: context,
+                builder: (_) => const Profile(),
+                isScrollControlled: true,
+              );
+            },
+            child: const Icon(
+              Icons.person,
+              color: Colors.white,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _iconBox({required Widget child}) {
-    return Container(
-      width: 46,
-      height: 46,
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.15),
-        borderRadius: BorderRadius.circular(16),
+  Widget _iconBox({
+    required Widget child,
+    VoidCallback? onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: 46,
+        height: 46,
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.15),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: child,
       ),
-      child: child,
     );
   }
 }

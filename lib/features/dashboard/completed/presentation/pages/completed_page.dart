@@ -17,6 +17,7 @@ class _CompletedScreenState extends ConsumerState<CompletedScreen> {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.all(12),
       children: [
         const Row(

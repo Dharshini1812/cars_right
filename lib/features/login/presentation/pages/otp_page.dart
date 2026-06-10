@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cars_right/features/offline_camera/presentation/pages/offline_bottom_sheet.dart';
 import 'package:cars_right/features/login/presentation/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/theme/app_theme.dart';
 import '../widgets/offline_camera_tile.dart';
@@ -32,6 +33,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
   // Resend cooldown timer
   int _resendSeconds = 30;
   Timer? _resendTimer;
+  bool _isOtpValid = false;
 
   @override
   void initState() {
@@ -41,6 +43,13 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) => _focusList[0].requestFocus(),
     );
+    for (final controller in _ctrlList) {
+      controller.addListener(() {
+        setState(() {
+          _isOtpValid = _fullOtp.length == 4;
+        });
+      });
+    }
   }
 
   @override
@@ -77,7 +86,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
   }
 
   void _onBackspace(int index) {
-    if (_ctrlList[index].text.isEmpty && index > 0) {
+    if (index > 0) {
       _focusList[index - 1].requestFocus();
       _ctrlList[index - 1].clear();
     }
@@ -214,6 +223,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
               // ── Verify button ───────────────────────────────────────────
               _VerifyButton(
                 isLoading: state.isLoading,
+                isEnabled: _isOtpValid,
                 onTap: _verify,
               ),
 
@@ -354,21 +364,30 @@ class _OtpBox extends StatelessWidget {
           child: child,
         );
       },
-      child: TextField(
-        controller: controller,
-        focusNode: focusNode,
-        textAlign: TextAlign.center,
-        keyboardType: TextInputType.number,
-        maxLength: 1,
-        onChanged: onChanged,
-        style: const TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.w800,
-          color: AppColors.textDark,
-        ),
-        decoration: const InputDecoration(
-          counterText: '',
-          border: InputBorder.none,
+      child: KeyboardListener(
+        focusNode: FocusNode(),
+        onKeyEvent: (event) {
+          if (event.logicalKey == LogicalKeyboardKey.backspace &&
+              controller.text.isEmpty) {
+            onBackspace();
+          }
+        },
+        child: TextField(
+          controller: controller,
+          focusNode: focusNode,
+          textAlign: TextAlign.center,
+          keyboardType: TextInputType.number,
+          maxLength: 1,
+          onChanged: onChanged,
+          style: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w800,
+            color: AppColors.textDark,
+          ),
+          decoration: const InputDecoration(
+            counterText: '',
+            border: InputBorder.none,
+          ),
         ),
       ),
     );
@@ -378,27 +397,30 @@ class _OtpBox extends StatelessWidget {
 
 class _VerifyButton extends StatelessWidget {
   final bool isLoading;
+  final bool isEnabled;
   final VoidCallback onTap;
 
-  const _VerifyButton({required this.isLoading, required this.onTap});
+  const _VerifyButton(
+      {required this.isLoading, required this.isEnabled, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: isLoading ? null : onTap,
+      onTap: (!isLoading && isEnabled) ? onTap : null,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 18),
         decoration: BoxDecoration(
-          color: AppColors.loginColor,
+          color: isEnabled ? AppColors.loginColor : Colors.grey.shade300,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
-            BoxShadow(
-              color: AppColors.loginColor.withOpacity(0.35),
-              blurRadius: 20,
-              offset: const Offset(0, 8),
-            ),
+            if (isEnabled)
+              BoxShadow(
+                color: AppColors.loginColor.withOpacity(0.35),
+                blurRadius: 20,
+                offset: const Offset(0, 8),
+              ),
           ],
         ),
         child: Center(
