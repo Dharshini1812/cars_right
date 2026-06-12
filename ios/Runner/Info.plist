@@ -49,6 +49,8 @@
 
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photo library access is needed to upload vehicle photos.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs location access to show your current inspection location.</string>
 	<true/>
 </dict>
 </plist>

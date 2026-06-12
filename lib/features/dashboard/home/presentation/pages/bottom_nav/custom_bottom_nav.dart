@@ -58,12 +58,12 @@ class BottomNavBar extends StatelessWidget {
               isActive: currentIndex == 3,
               onTap: () => onTap(3),
             ),
-            // _NavItem(
-            //   icon: Icons.person_rounded,
-            //   label: 'Profile',
-            //   isActive: currentIndex == 4,
-            //   onTap: () => onTap(4),
-            // ),
+            _NavItem(
+              icon: Icons.folder_copy_outlined,
+              label: 'Other Leads',
+              isActive: currentIndex == 4,
+              onTap: () => onTap(4),
+            ),
           ],
         ),
       ),
@@ -84,7 +84,7 @@ class _NavItem extends StatelessWidget {
     required this.onTap,
   });
 
-  static const activeColor = Color(0xFF07558D);
+  static const activeColor = AppColors.primary;
 
   @override
   Widget build(BuildContext context) {

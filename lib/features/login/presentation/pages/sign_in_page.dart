@@ -208,7 +208,7 @@ class _PhoneField extends StatelessWidget {
             child: const Text(
               '+91',
               style: TextStyle(
-                fontSize: 15,
+                fontSize: 20,
                 fontWeight: FontWeight.w700,
                 color: Color(0xff064f86),
               ),
@@ -226,7 +226,8 @@ class _PhoneField extends StatelessWidget {
                 LengthLimitingTextInputFormatter(10),
               ],
               style: const TextStyle(
-                fontSize: 15,
+                letterSpacing: 2,
+                fontSize: 20,
                 fontWeight: FontWeight.w500,
                 color: AppColors.textDark,
               ),
@@ -271,12 +272,12 @@ class _PrimaryButton extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 18),
         decoration: BoxDecoration(
-          color: isEnabled ? AppColors.loginColor : Colors.grey.shade300,
+          color: isEnabled ? AppColors.primary : Colors.grey.shade300,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             if (isEnabled)
               BoxShadow(
-                color: AppColors.loginColor.withOpacity(0.35),
+                color: AppColors.primary.withOpacity(0.35),
                 blurRadius: 25,
                 offset: const Offset(0, 8),
               ),

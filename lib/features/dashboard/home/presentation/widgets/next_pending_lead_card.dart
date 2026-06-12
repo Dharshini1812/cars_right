@@ -64,11 +64,28 @@ class NextPendingLeadCard extends StatelessWidget {
           const SizedBox(height: 12),
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: const LinearProgressIndicator(
-              value: 0.64,
-              minHeight: 6,
-              backgroundColor: Color(0xFFEAF0F5),
-              valueColor: AlwaysStoppedAnimation(AppColors.primary),
+            child: Stack(
+              children: [
+                Container(
+                  height: 6,
+                  color: const Color(0xFFEAF0F5),
+                ),
+                FractionallySizedBox(
+                  widthFactor: 0.64, // 64%
+                  child: Container(
+                    height: 6,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xFF0066FF),
+                          AppColors.accent,
+                          AppColors.accent,
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 22),

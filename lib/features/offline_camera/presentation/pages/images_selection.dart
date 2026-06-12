@@ -20,7 +20,7 @@ class FourWPhotosBottomSheet extends ConsumerStatefulWidget {
 class _FourWPhotosBottomSheetState
     extends ConsumerState<FourWPhotosBottomSheet> {
   final ImagePicker _picker = ImagePicker();
-  final List<CapturedModel?> selectedImages = List.generate(12, (_) => null);
+  final List<CapturedModel?> selectedImages = List.generate(16, (_) => null);
 
   void _showPhotoPreview(BuildContext context, int index) {
     final photo = selectedImages[index];
@@ -217,6 +217,10 @@ class _FourWPhotosBottomSheetState
     'Tyre FL',
     'Tyre RR',
     'Tyre RL',
+    'RC Copy',
+    'RC Back',
+    'Insurance',
+    'Damage Photo'
   ];
 
   @override

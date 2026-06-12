@@ -90,6 +90,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
       _focusList[index - 1].requestFocus();
       _ctrlList[index - 1].clear();
     }
+
     ref.read(authProvider.notifier).updateOtp(_fullOtp);
   }
 
@@ -364,13 +365,16 @@ class _OtpBox extends StatelessWidget {
           child: child,
         );
       },
-      child: KeyboardListener(
-        focusNode: FocusNode(),
-        onKeyEvent: (event) {
-          if (event.logicalKey == LogicalKeyboardKey.backspace &&
+      child: Focus(
+        onKeyEvent: (node, event) {
+          if (event is KeyDownEvent &&
+              event.logicalKey == LogicalKeyboardKey.backspace &&
               controller.text.isEmpty) {
             onBackspace();
+            return KeyEventResult.handled;
           }
+
+          return KeyEventResult.ignored;
         },
         child: TextField(
           controller: controller,
@@ -412,12 +416,12 @@ class _VerifyButton extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 18),
         decoration: BoxDecoration(
-          color: isEnabled ? AppColors.loginColor : Colors.grey.shade300,
+          color: isEnabled ? AppColors.primary : Colors.grey.shade300,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             if (isEnabled)
               BoxShadow(
-                color: AppColors.loginColor.withOpacity(0.35),
+                color: AppColors.primary.withOpacity(0.35),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
               ),

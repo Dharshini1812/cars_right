@@ -3,6 +3,7 @@ import 'package:cars_right/features/dashboard/completed/presentation/pages/compl
 import 'package:cars_right/features/dashboard/home/presentation/pages/home_page.dart';
 import 'package:cars_right/features/dashboard/leads/presentation/pages/lead_page.dart';
 import 'package:cars_right/features/dashboard/pending/presenattion/pages/pending_page.dart';
+import 'package:cars_right/features/otherleads/presentation/pages/other_leads.dart';
 import 'package:flutter/material.dart';
 import 'custom_bottom_nav.dart';
 
@@ -21,6 +22,7 @@ class _BottomNavPageState extends State<BottomNavPage> {
     LeadsScreen(),
     PendingScreen(),
     CompletedScreen(),
+    OtherLeadsScreen()
   ];
 
   @override

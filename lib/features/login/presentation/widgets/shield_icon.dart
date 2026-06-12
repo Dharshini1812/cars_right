@@ -12,7 +12,7 @@ class ShieldIcon extends StatelessWidget {
         const Icon(
           Icons.verified_user_rounded,
           size: 76,
-          color: AppColors.loginColor,
+          color: AppColors.primary,
         ),
         Row(
           mainAxisSize: MainAxisSize.min,

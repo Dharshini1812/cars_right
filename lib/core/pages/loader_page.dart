@@ -64,7 +64,7 @@ class _LoaderScreenState extends State<LoaderScreen>
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.accent,
+                        color: AppColors.primary,
                         fontFamily: 'Poppins',
                       ),
                     ),
@@ -73,7 +73,7 @@ class _LoaderScreenState extends State<LoaderScreen>
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.textDark,
+                        color: AppColors.primary,
                         fontFamily: 'Poppins',
                       ),
                     ),

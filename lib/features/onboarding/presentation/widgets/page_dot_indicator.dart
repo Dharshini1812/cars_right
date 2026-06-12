@@ -24,7 +24,7 @@ class PageDotIndicator extends StatelessWidget {
           width: active ? 24 : 8,
           height: 8,
           decoration: BoxDecoration(
-            color: active ? AppColors.dotActive : AppColors.dotInactive,
+            color: active ? AppColors.primary : AppColors.dotInactive,
             borderRadius: BorderRadius.circular(4),
           ),
         );

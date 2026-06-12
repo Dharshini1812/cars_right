@@ -1,3 +1,4 @@
+import 'package:cars_right/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class Header extends StatelessWidget {
@@ -29,7 +30,7 @@ class Header extends StatelessWidget {
               ),
               child: const Icon(
                 Icons.arrow_back_ios_new_rounded,
-                color: Color(0xFF07558E),
+                color: AppColors.primary,
                 size: 20,
               ),
             ),
@@ -42,7 +43,7 @@ class Header extends StatelessWidget {
                 Text(
                   title ?? '',
                   style: const TextStyle(
-                    color: Color(0xFF07558E),
+                    color: AppColors.primary,
                     fontSize: 22,
                     fontWeight: FontWeight.w900,
                   ),

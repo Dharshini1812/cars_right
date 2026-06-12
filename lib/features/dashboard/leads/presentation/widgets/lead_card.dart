@@ -254,7 +254,7 @@ class LeadCard extends StatelessWidget {
         label: Text(
           title,
           style: const TextStyle(
-            fontSize: 15,
+            fontSize: 13,
             fontWeight: FontWeight.w800,
           ),
         ),

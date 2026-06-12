@@ -9,44 +9,43 @@ class OnboardingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final height = size.height;
+
+    final heroHeight = height * 0.48;
+    final logoHeight = height < 700 ? 48.0 : 70.0;
+    final titleSize = height < 700 ? 24.0 : 30.0;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // ── Hero image flush to top, no padding ───────────────────────────
         _HeroImage(
           imagePath: page.imagePath,
           page: page,
-          height: 390, // 50% of screen height
+          height: heroHeight,
         ),
-
-        const SizedBox(height: 24),
-
-        // ── Badge ─────────────────────────────────────────────────────────
+        SizedBox(height: height < 700 ? 14 : 24),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: _Badge(
-              emoji: page.badgeEmoji, label: 'Vehicle Inspection & Valuation'),
+            emoji: page.badgeEmoji,
+            label: 'Vehicle Inspection & Valuation',
+          ),
         ),
-
-        const SizedBox(height: 14),
-
-        // ── Title ─────────────────────────────────────────────────────────
+        SizedBox(height: height < 700 ? 10 : 14),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(
             page.title,
-            style: const TextStyle(
-              fontSize: 30,
+            style: TextStyle(
+              fontSize: titleSize,
               fontWeight: FontWeight.w800,
               color: AppColors.textDark,
               height: 1.2,
             ),
           ),
         ),
-
-        const SizedBox(height: 10),
-
-        // ── Description ───────────────────────────────────────────────────
+        const SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(
@@ -54,31 +53,25 @@ class OnboardingCard extends StatelessWidget {
             style: const TextStyle(
               fontSize: 13,
               color: AppColors.textGrey,
-              height: 1.6,
+              height: 1.5,
             ),
           ),
         ),
-
-        const SizedBox(height: 24),
-
-        // ── CarsRight logo ────────────────────────────────────────────────
+        SizedBox(height: height < 700 ? 14 : 24),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Image.asset(
             'images/carsright.png',
-            height: 70,
+            height: logoHeight,
             fit: BoxFit.contain,
             alignment: Alignment.centerLeft,
           ),
         ),
-
-        // Extra space so content doesn't hide behind bottom bar
-        const SizedBox(height: 90),
+        const SizedBox(height: 24),
       ],
     );
   }
 }
-
 // ─────────────────────────────────────────────────────────────────────────────
 
 class _HeroImage extends StatelessWidget {

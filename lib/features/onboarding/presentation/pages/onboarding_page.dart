@@ -66,9 +66,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             transitionBuilder: (child, animation) {
               return FadeTransition(opacity: animation, child: child);
             },
-            child: _OnboardingPageContent(
+            child: SingleChildScrollView(
               key: ValueKey(state.currentPage),
-              page: state.pages[state.currentPage],
+              padding: const EdgeInsets.only(bottom: 120),
+              child: _OnboardingPageContent(
+                page: state.pages[state.currentPage],
+              ),
             ),
           ),
 

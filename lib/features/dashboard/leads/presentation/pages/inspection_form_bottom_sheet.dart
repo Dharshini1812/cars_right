@@ -1,4 +1,5 @@
 import 'package:cars_right/core/theme/app_theme.dart';
+import 'package:cars_right/core/widgets/header_bottom.dart';
 import 'package:cars_right/features/dashboard/home/data/lead_model.dart';
 import 'package:cars_right/features/dashboard/leads/presentation/widgets/mandatory_photos_card.dart';
 import 'package:cars_right/features/dashboard/leads/presentation/widgets/rating_row.dart';
@@ -60,14 +61,16 @@ class _InspectionFormViewState extends State<InspectionFormView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _fixedHeader(),
+        Header(
+            title: '2W Inspection Form',
+            subTitle: '${widget.lead.vehicleName} - ${widget.lead.regNo}'),
         Expanded(
           child: SingleChildScrollView(
             // controller: widget.scrollController,
             padding: const EdgeInsets.all(10),
             child: Column(
               children: [
-                _tabBar(),
+                // _tabBar(),
                 const SizedBox(height: 18),
                 _leadVehicleDetailsCard(),
                 const SizedBox(height: 18),
@@ -124,39 +127,39 @@ class _InspectionFormViewState extends State<InspectionFormView> {
     );
   }
 
-  Widget _fixedHeader() {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(22, 20, 22, 18),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
-      ),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 28,
-            backgroundColor: const Color(0xFFEAF2FA),
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.arrow_back_ios_new, size: 18),
-              color: AppColors.primary,
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              '2W Inspection Form\n${widget.lead.vehicleName} - ${widget.lead.regNo}',
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w900,
-                color: AppColors.primary,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _fixedHeader() {
+  //   return Container(
+  //     padding: const EdgeInsets.fromLTRB(22, 20, 22, 18),
+  //     decoration: const BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+  //     ),
+  //     child: Row(
+  //       children: [
+  //         CircleAvatar(
+  //           radius: 28,
+  //           backgroundColor: const Color(0xFFEAF2FA),
+  //           child: IconButton(
+  //             onPressed: () {},
+  //             icon: const Icon(Icons.arrow_back_ios_new, size: 18),
+  //             color: AppColors.primary,
+  //           ),
+  //         ),
+  //         const SizedBox(width: 16),
+  //         Expanded(
+  //           child: Text(
+  //             '2W Inspection Form\n${widget.lead.vehicleName} - ${widget.lead.regNo}',
+  //             style: const TextStyle(
+  //               fontSize: 14,
+  //               fontWeight: FontWeight.w900,
+  //               color: AppColors.primary,
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _tabBar() {
     return Row(
