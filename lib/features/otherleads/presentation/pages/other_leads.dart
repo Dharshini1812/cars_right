@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OtherLeadsScreen extends ConsumerStatefulWidget {
-  const OtherLeadsScreen({super.key});
+  final VoidCallback? onLeadPicked;
+  const OtherLeadsScreen({super.key, this.onLeadPicked});
 
   @override
   ConsumerState<OtherLeadsScreen> createState() => _OtherLeadsScreenState();
@@ -69,6 +70,7 @@ class _OtherLeadsScreenState extends ConsumerState<OtherLeadsScreen> {
         backgroundColor: const Color(0xFF8028F0),
       ),
     );
+    widget.onLeadPicked?.call();
   }
 
   @override

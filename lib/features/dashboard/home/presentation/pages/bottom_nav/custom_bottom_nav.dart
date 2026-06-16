@@ -60,7 +60,7 @@ class BottomNavBar extends StatelessWidget {
             ),
             _NavItem(
               icon: Icons.folder_copy_outlined,
-              label: 'Other Leads',
+              label: 'Live Leads',
               isActive: currentIndex == 4,
               onTap: () => onTap(4),
             ),

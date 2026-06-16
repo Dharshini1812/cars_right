@@ -18,10 +18,13 @@ class _OfflineCameraBottomSheetState
   @override
   Widget build(BuildContext context) {
     final logic = ref.watch(offlineLogicProvider);
+
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return DraggableScrollableSheet(
-      initialChildSize: 0.70,
-      minChildSize: 0.70,
-      maxChildSize: 0.70,
+      initialChildSize: isLandscape ? 0.85 : 0.70,
+      minChildSize: isLandscape ? 0.85 : 0.70,
+      maxChildSize: isLandscape ? 0.85 : 0.70,
       builder: (context, scrollController) {
         return Container(
           decoration: const BoxDecoration(
@@ -37,39 +40,40 @@ class _OfflineCameraBottomSheetState
                 subTitle: 'Choose to start camera',
               ),
               const SizedBox(height: 20),
-              GridView.builder(
-                padding: const EdgeInsets.all(12),
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 1.28,
-                ),
-                itemCount: logic.vehicleTypes.length,
-                itemBuilder: (context, index) {
-                  final item = logic.vehicleTypes[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
+              Expanded(
+                child: GridView.builder(
+                  padding: const EdgeInsets.all(12),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 1.28,
+                  ),
+                  itemCount: logic.vehicleTypes.length,
+                  itemBuilder: (context, index) {
+                    final item = logic.vehicleTypes[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
 
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: Colors.transparent,
-                        builder: (_) => FourWPhotosBottomSheet(),
-                      );
-                    },
-                    child: containerVType(
-                      context,
-                      item.title,
-                      item.subtitle,
-                      item.bgColor,
-                      item.icon,
-                      item.iconColor,
-                    ),
-                  );
-                },
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          builder: (_) => FourWPhotosBottomSheet(),
+                        );
+                      },
+                      child: containerVType(
+                        context,
+                        item.title,
+                        item.subtitle,
+                        item.bgColor,
+                        item.icon,
+                        item.iconColor,
+                      ),
+                    );
+                  },
+                ),
               )
             ],
           ),

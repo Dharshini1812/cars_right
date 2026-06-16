@@ -4,6 +4,7 @@ import 'package:cars_right/core/theme/app_theme.dart';
 import 'package:cars_right/core/widgets/header_bottom.dart';
 import 'package:cars_right/features/dashboard/home/data/capture_model.dart';
 import 'package:cars_right/features/offline_camera/presentation/pages/inbuild_camera_screen.dart';
+import 'package:cars_right/features/offline_camera/presentation/pages/video_page.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -225,223 +226,248 @@ class _FourWPhotosBottomSheetState
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return DraggableScrollableSheet(
-      initialChildSize: 0.93,
-      minChildSize: 0.60,
-      maxChildSize: 0.93,
+      initialChildSize: isLandscape ? 0.85 : 0.93,
+      minChildSize: isLandscape ? 0.85 : 0.60,
+      maxChildSize: isLandscape ? 0.85 : 0.93,
       builder: (context, scrollController) {
-        return Container(
-          decoration: const BoxDecoration(
-            color: Color(0xFFEFF4F8),
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(32),
-            ),
-          ),
-          child: Column(
-            children: [
-              const Header(
-                title: '4W Photos',
-                subTitle: 'Ford EcoSport 1.5 Titanium - 16 required shots',
+        return SafeArea(
+            top: false,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Color(0xFFEFF4F8),
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(32),
+                ),
               ),
-              const SizedBox(height: 10),
-              Expanded(
-                child: SingleChildScrollView(
-                  controller: scrollController,
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    children: [
-                      GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: shots.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 16,
-                          childAspectRatio: 1.75,
-                        ),
-                        itemBuilder: (context, index) {
-                          final imagePath = selectedImages[index];
+              child: Column(
+                children: [
+                  const Header(
+                    title: '4W Photos',
+                    subTitle: 'Ford EcoSport 1.5 Titanium - 16 required shots',
+                  ),
+                  const SizedBox(height: 10),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      controller: scrollController,
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        children: [
+                          GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: shots.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 16,
+                              mainAxisSpacing: 16,
+                              childAspectRatio: 1.75,
+                            ),
+                            itemBuilder: (context, index) {
+                              final imagePath = selectedImages[index];
 
-                          return InkWell(
-                            onTap: () {
-                              // selectedImages[index] =
-                              //     'images/onboarding/img1.jpg';
+                              return InkWell(
+                                onTap: () {
+                                  // selectedImages[index] =
+                                  //     'images/onboarding/img1.jpg';
 
-                              if (selectedImages[index] != null) {
-                                _showPhotoPreview(context, index);
-                              } else {
-                                _showAddPhotoSheet(context, index);
-                              }
-                            },
-                            child: DottedBorder(
-                              borderType: BorderType.RRect,
-                              color: const Color(0xFFBFD7EE),
-                              strokeWidth: 1.5,
-                              dashPattern: const [6, 4],
-                              radius: const Radius.circular(18),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(18),
-                                child: Container(
-                                  width: double.infinity,
-                                  color: Colors.white,
-                                  child: imagePath != null
-                                      ? Stack(
-                                          fit: StackFit.expand,
-                                          children: [
-                                            Image.file(
-                                              File(imagePath.imagePath),
-                                              fit: BoxFit.cover,
-                                            ),
-                                            Container(
-                                              color: Colors.black
-                                                  .withOpacity(0.35),
-                                            ),
-                                            const Positioned(
-                                              left: 12,
-                                              bottom: 35,
-                                              child: CircleAvatar(
-                                                radius: 10,
-                                                backgroundColor: Colors.white,
-                                                child: Icon(
-                                                  Icons.check,
-                                                  size: 14,
-                                                  color: AppColors.primary,
+                                  if (selectedImages[index] != null) {
+                                    _showPhotoPreview(context, index);
+                                  } else {
+                                    _showAddPhotoSheet(context, index);
+                                  }
+                                },
+                                child: DottedBorder(
+                                  borderType: BorderType.RRect,
+                                  color: const Color(0xFFBFD7EE),
+                                  strokeWidth: 1.5,
+                                  dashPattern: const [6, 4],
+                                  radius: const Radius.circular(18),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(18),
+                                    child: Container(
+                                      width: double.infinity,
+                                      color: Colors.white,
+                                      child: imagePath != null
+                                          ? Stack(
+                                              fit: StackFit.expand,
+                                              children: [
+                                                Image.file(
+                                                  File(imagePath.imagePath),
+                                                  fit: BoxFit.cover,
                                                 ),
-                                              ),
-                                            ),
-                                            Positioned(
-                                              left: 12,
-                                              bottom: 12,
-                                              child: Text(
-                                                shots[index],
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w900,
+                                                Container(
+                                                  color: Colors.black
+                                                      .withOpacity(0.35),
                                                 ),
-                                              ),
+                                                const Positioned(
+                                                  left: 12,
+                                                  bottom: 35,
+                                                  child: CircleAvatar(
+                                                    radius: 10,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    child: Icon(
+                                                      Icons.check,
+                                                      size: 14,
+                                                      color: AppColors.primary,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  left: 12,
+                                                  bottom: 12,
+                                                  child: Text(
+                                                    shots[index],
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w900,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          : Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const Icon(
+                                                  Icons.camera_alt_rounded,
+                                                  size: 22,
+                                                  color: Color(0xFF8FA1B8),
+                                                ),
+                                                const SizedBox(height: 7),
+                                                Text(
+                                                  shots[index],
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w800,
+                                                    color: AppColors.textGrey,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        )
-                                      : Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const Icon(
-                                              Icons.camera_alt_rounded,
-                                              size: 22,
-                                              color: Color(0xFF8FA1B8),
-                                            ),
-                                            const SizedBox(height: 7),
-                                            Text(
-                                              shots[index],
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w800,
-                                                color: AppColors.textGrey,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 56,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                            elevation: 0,
+                              );
+                            },
                           ),
-                          onPressed: () {
-                            // save offline action here
-                          },
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.save,
-                                color: Colors.white,
-                                size: 16,
+                          const SizedBox(height: 20),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 56,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                elevation: 0,
                               ),
-                              Text(
-                                'Save Offline',
+                              onPressed: () async {
+                                final videoPath =
+                                    await showModalBottomSheet<String>(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (_) =>
+                                      const VehicleVideoBottomSheet(),
+                                );
+
+                                if (videoPath != null) {
+                                  // save videoPath here
+                                  print(videoPath);
+                                }
+                              },
+                              child: const Text(
+                                'Next',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w900,
                                   color: Colors.white,
                                 ),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
+                          const SizedBox(height: 20),
+                        ],
                       ),
-                      const SizedBox(height: 20),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
-        );
+            ));
       },
     );
   }
 
   void _showAddPhotoSheet(BuildContext context, int index) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) {
-        return Container(
-          padding: const EdgeInsets.all(20),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(32),
+        return SafeArea(
+          top: false,
+          child: Container(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.90,
             ),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Add photo',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w900,
-                  color: Color(0xFF1F2937),
-                ),
+            padding: EdgeInsets.fromLTRB(
+              20,
+              20,
+              20,
+              MediaQuery.of(context).viewInsets.bottom + 20,
+            ),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(32),
               ),
-              const SizedBox(height: 14),
-              _photoOption(
-                context,
-                Icons.camera_alt_rounded,
-                'Camera',
-                ImageSource.camera,
-                index,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Add photo',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF1F2937),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  _photoOption(
+                    context,
+                    Icons.camera_alt_rounded,
+                    'Camera',
+                    ImageSource.camera,
+                    index,
+                  ),
+                  SizedBox(height: isLandscape ? 8 : 10),
+                  _photoOption(
+                    context,
+                    Icons.folder_rounded,
+                    'Upload file',
+                    ImageSource.gallery,
+                    index,
+                  ),
+                  SizedBox(height: isLandscape ? 8 : 10),
+                  _cancelButton(context),
+                ],
               ),
-              const SizedBox(height: 10),
-              _photoOption(
-                context,
-                Icons.folder_rounded,
-                'Upload file',
-                ImageSource.gallery,
-                index,
-              ),
-              const SizedBox(height: 10),
-              _cancelButton(context),
-            ],
+            ),
           ),
         );
       },
@@ -455,6 +481,9 @@ class _FourWPhotosBottomSheetState
     ImageSource source,
     int index,
   ) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     return InkWell(
       onTap: () async {
         Navigator.pop(context);
@@ -477,7 +506,7 @@ class _FourWPhotosBottomSheetState
         }
       },
       child: Container(
-        height: 60,
+        height: isLandscape ? 48 : 60,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: const Color(0xFFD8E1EC)),
@@ -490,8 +519,8 @@ class _FourWPhotosBottomSheetState
               const SizedBox(width: 12),
               Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 18,
+                style: TextStyle(
+                  fontSize: isLandscape ? 15 : 18,
                   fontWeight: FontWeight.w800,
                   color: AppColors.primary,
                 ),
@@ -504,20 +533,23 @@ class _FourWPhotosBottomSheetState
   }
 
   Widget _cancelButton(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     return InkWell(
       onTap: () => Navigator.pop(context),
       child: Container(
-        height: 60,
+        height: isLandscape ? 48 : 60,
         decoration: BoxDecoration(
           color: const Color(0xFFF8FAFC),
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: const Color(0xFFD8E1EC)),
         ),
-        child: const Center(
+        child: Center(
           child: Text(
             'Cancel',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: isLandscape ? 15 : 18,
               fontWeight: FontWeight.w800,
               color: AppColors.textGrey,
             ),

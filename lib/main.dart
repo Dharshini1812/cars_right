@@ -4,12 +4,15 @@ import 'package:cars_right/features/login/presentation/pages/otp_page.dart';
 import 'package:cars_right/features/login/presentation/pages/sign_in_page.dart';
 import 'package:cars_right/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:cars_right/features/splash/splash.dart';
+import 'package:cars_right/core/local_storage/hive_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/theme/app_theme.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await HiveService.init();
   runApp(
     const ProviderScope(
       child: CarsRightApp(),

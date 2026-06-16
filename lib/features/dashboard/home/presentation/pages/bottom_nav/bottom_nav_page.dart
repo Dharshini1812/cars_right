@@ -17,16 +17,23 @@ class BottomNavPage extends StatefulWidget {
 class _BottomNavPageState extends State<BottomNavPage> {
   int currentIndex = 0;
 
-  final pages = const [
-    HomeScreen(),
-    LeadsScreen(),
-    PendingScreen(),
-    CompletedScreen(),
-    OtherLeadsScreen()
-  ];
+  void changeTab(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final pages = [
+      const HomeScreen(),
+      const LeadsScreen(),
+      const PendingScreen(),
+      const CompletedScreen(),
+      OtherLeadsScreen(onLeadPicked: () {
+        changeTab(1);
+      }),
+    ];
     return Scaffold(
       appBar: const CommonDashboardAppBar(),
       backgroundColor: const Color(0xffF5F6FA),
@@ -38,9 +45,7 @@ class _BottomNavPageState extends State<BottomNavPage> {
         child: BottomNavBar(
           currentIndex: currentIndex,
           onTap: (index) {
-            setState(() {
-              currentIndex = index;
-            });
+            changeTab(index);
           },
         ),
       ),

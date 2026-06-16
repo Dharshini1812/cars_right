@@ -77,8 +77,8 @@ class _LeadDetailsBottomSheetState
       final userLocation = LatLng(position.latitude, position.longitude);
 
       customerLocation = LatLng(
-        position.latitude + 0.007,
-        position.longitude + 0.007,
+        position.latitude + 0.001,
+        position.longitude + 0.001,
       );
       String address = 'Address not available';
 
