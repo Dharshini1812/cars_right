@@ -1,10 +1,13 @@
+import 'package:cars_right/features/login/data/model/send_otp_model.dart';
+import 'package:cars_right/features/login/presentation/logic/other/login_logic.dart';
 import 'package:cars_right/features/offline_camera/presentation/pages/offline_bottom_sheet.dart';
-import 'package:cars_right/features/login/presentation/provider.dart';
+import 'package:cars_right/features/login/presentation/logic/provider.dart';
 import 'package:cars_right/features/login/presentation/widgets/offline_camera_tile.dart';
 import 'package:cars_right/features/login/presentation/widgets/shield_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../../../../core/theme/app_theme.dart';
 
 class PhoneLoginScreen extends ConsumerStatefulWidget {
@@ -24,42 +27,25 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
     );
   }
 
-  final _phoneCtrl = TextEditingController();
-  final _phoneFocus = FocusNode();
-  bool _isPhoneValid = false;
-
   @override
   void initState() {
     super.initState();
 
-    _phoneCtrl.addListener(() {
-      setState(() {
-        _isPhoneValid = _phoneCtrl.text.length == 10;
-      });
+    Future.microtask(() {
+      ref.read(loginLogicProvider).init();
     });
   }
 
   @override
   void dispose() {
-    _phoneCtrl.dispose();
-    _phoneFocus.dispose();
+    ref.read(loginLogicProvider).disposeControllers();
     super.dispose();
-  }
-
-  Future<void> _sendOtp() async {
-    final phone = _phoneCtrl.text.trim();
-    if (phone.length < 10) return;
-
-    _phoneFocus.unfocus();
-    await ref.read(authProvider.notifier).sendOtp(phone);
-
-    // ← ADD THIS: Navigate to loader which then goes to OTP
-    Navigator.pushReplacementNamed(context, '/auth-loader');
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(authProvider);
+    final logic = ref.watch(loginLogicProvider);
 
     // ── Navigate to loader → OTP after OTP is sent ──────────────────────
     ref.listen(authProvider, (prev, next) {
@@ -68,6 +54,34 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
         Navigator.pushNamed(context, '/auth-loader');
       }
     });
+    // ref.listen(sendOtpProvider, (previous, next) {
+    //   next.whenOrNull(
+    //     data: (data) {
+    //       Fluttertoast.showToast(
+    //         msg: 'OTP sent successfully',
+    //         toastLength: Toast.LENGTH_SHORT,
+    //       );
+
+    //       Navigator.pushNamed(context, '/auth-loader');
+    //     },
+    //     error: (msg) {
+    //       Fluttertoast.showToast(
+    //         msg: msg,
+    //         toastLength: Toast.LENGTH_SHORT,
+    //       );
+    //     },
+    //   );
+    // });
+    Future<void> _sendOtp() async {
+      final phone = logic.phoneCtrl.text.trim();
+      if (phone.length < 10) return;
+
+      logic.phoneFocus.unfocus();
+      await ref.read(authProvider.notifier).sendOtp(phone);
+
+      // ← ADD THIS: Navigate to loader which then goes to OTP
+      Navigator.pushReplacementNamed(context, '/auth-loader');
+    }
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -135,8 +149,8 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
 
                         // ── Phone input ─────────────────────────────────────────────
                         _PhoneField(
-                          controller: _phoneCtrl,
-                          focusNode: _phoneFocus,
+                          controller: logic.phoneCtrl,
+                          focusNode: logic.phoneFocus,
                         ),
 
                         const SizedBox(height: 24),
@@ -145,8 +159,15 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                         _PrimaryButton(
                           label: 'Send OTP',
                           isLoading: state.isLoading,
-                          isEnabled: _isPhoneValid,
-                          onTap: _sendOtp,
+                          isEnabled: logic.isPhoneValid,
+                          onTap: () => _sendOtp(),
+                          // onTap: () => logic.sendOtp(
+                          //   context,
+                          //   SendOtpModel(
+                          //     phone: logic.phoneCtrl.text,
+                          //     isRegistered: true,
+                          //   ),
+                          // ),
                         ),
 
                         const SizedBox(height: 24),

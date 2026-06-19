@@ -44,6 +44,7 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera access is needed to capture vehicle photos.</string>
 
@@ -51,6 +52,5 @@
 	<string>Photo library access is needed to upload vehicle photos.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
     <string>This app needs location access to show your current inspection location.</string>
-	<true/>
 </dict>
 </plist>

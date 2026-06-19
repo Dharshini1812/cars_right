@@ -157,76 +157,83 @@ class _LeadDetailsBottomSheetState
             children: [
               _header(context),
               Expanded(
-                child: SingleChildScrollView(
+                child: RawScrollbar(
                   controller: scrollController,
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _acceptedCard(),
-                      const SizedBox(height: 10),
-                      _vehicleCard(),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Expanded(
-                              child: _infoCard(
-                                  'CUSTOMER', widget.lead.customerName)),
-                          const SizedBox(width: 8),
-                          Expanded(
-                              child: _infoCard('PHONE', widget.lead.phone)),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Expanded(
-                              child: _infoCard('SCHEDULE', widget.lead.time)),
-                          const SizedBox(width: 8),
-                          Expanded(
-                              child: _infoCard('AREA', widget.lead.location)),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      _locationCard(),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: _bottomButton(
-                              title: canStartInspection
-                                  ? 'Start Inspection'
-                                  : 'Reach Location First',
-                              icon: Icons.assignment_turned_in,
-                              filled: canStartInspection,
-                              onTap: canStartInspection
-                                  ? () {
-                                      Navigator.pop(context);
+                  thumbColor: AppColors.primary,
+                  thumbVisibility: true,
+                  radius: const Radius.circular(8),
+                  thickness: 4,
+                  child: SingleChildScrollView(
+                    controller: scrollController,
+                    padding: const EdgeInsets.all(8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _acceptedCard(),
+                        const SizedBox(height: 10),
+                        _vehicleCard(),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Expanded(
+                                child: _infoCard(
+                                    'CUSTOMER', widget.lead.customerName)),
+                            const SizedBox(width: 8),
+                            Expanded(
+                                child: _infoCard('PHONE', widget.lead.phone)),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Expanded(
+                                child: _infoCard('SCHEDULE', widget.lead.time)),
+                            const SizedBox(width: 8),
+                            Expanded(
+                                child: _infoCard('AREA', widget.lead.location)),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        _locationCard(),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _bottomButton(
+                                title: canStartInspection
+                                    ? 'Start Inspection'
+                                    : 'Reach Location First',
+                                icon: Icons.assignment_turned_in,
+                                filled: canStartInspection,
+                                onTap: canStartInspection
+                                    ? () {
+                                        Navigator.pop(context);
 
-                                      showModalBottomSheet(
-                                        context: context,
-                                        isScrollControlled: true,
-                                        backgroundColor: Colors.transparent,
-                                        builder: (_) =>
-                                            InspectionFormBottomSheet(
-                                          lead: widget.lead,
-                                        ),
-                                      );
-                                    }
-                                  : null,
+                                        showModalBottomSheet(
+                                          context: context,
+                                          isScrollControlled: true,
+                                          backgroundColor: Colors.transparent,
+                                          builder: (_) =>
+                                              InspectionFormBottomSheet(
+                                            lead: widget.lead,
+                                          ),
+                                        );
+                                      }
+                                    : null,
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: _bottomButton(
-                                title: 'Add Photos',
-                                icon: Icons.camera_alt,
-                                filled: false,
-                                onTap: () {}),
-                          ),
-                        ],
-                      ),
-                    ],
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: _bottomButton(
+                                  title: 'Add Photos',
+                                  icon: Icons.camera_alt,
+                                  filled: false,
+                                  onTap: () {}),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

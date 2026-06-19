@@ -1,3 +1,13 @@
+import 'package:cars_right/features/login/data/datasource/remote_datasource.dart';
+import 'package:cars_right/features/login/data/repository/login_repoistory_impl.dart';
+import 'package:cars_right/features/login/domain/repository/login_repository.dart';
+import 'package:cars_right/features/login/domain/usecase/send_otp.dart';
+import 'package:cars_right/features/login/domain/usecase/verify_otp.dart';
+import 'package:cars_right/features/login/presentation/logic/send_otp/send_otp_notifier.dart';
+import 'package:cars_right/features/login/presentation/logic/send_otp/send_otp_state.dart';
+import 'package:cars_right/features/login/presentation/logic/verify_otp/verify_otp_notifier.dart';
+import 'package:cars_right/features/login/presentation/logic/verify_otp/verify_otp_state.dart';
+import 'package:cars_right/services/api_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -86,3 +96,28 @@ class AuthNotifier extends StateNotifier<AuthState> {
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>(
   (_) => AuthNotifier(),
 );
+
+//--------Apiservice---------
+final apiService = Provider<ApiService>((ref) => ApiServiceImpl(ref));
+
+//sendOtp
+final _loginRemoteDataSource =
+    Provider<LoginRemoteDataSource>((ref) => LoginRemoteDataSourceImpl(ref));
+final _repository = Provider<LoginRepository>(
+    (ref) => LoginRepositoryImpl(ref.read(_loginRemoteDataSource)));
+
+//Usecase-sendOtp
+final _sendOtp =
+    Provider<SendOtpUsecase>((ref) => SendOtpUsecase(ref.read(_repository)));
+//Usecase-verifyOtp
+final _verifyOtp = Provider<VerifyOtpUsecase>(
+    (ref) => VerifyOtpUsecase(ref.read(_repository)));
+
+//provider-sendotp
+final sendOtpProvider = StateNotifierProvider<SendOtpNotifier, SendOtpState>(
+    (ref) => SendOtpNotifier(usecase: ref.read(_sendOtp)));
+
+//provider-verifyOtp
+final verifyOtpProvider =
+    StateNotifierProvider<VerifyOtpNotifier, VerifyOtpState>(
+        (ref) => VerifyOtpNotifier(usecase: ref.read(_verifyOtp)));

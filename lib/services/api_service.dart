@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cars_right/core/utils/urls.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract class ApiService {
   Future get(String url);
@@ -9,6 +10,8 @@ abstract class ApiService {
 }
 
 class ApiServiceImpl extends ApiService {
+  Ref ref;
+  ApiServiceImpl(this.ref);
   final Dio dio = Dio(
     BaseOptions(
       baseUrl: Url.baseUrl,

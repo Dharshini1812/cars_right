@@ -30,7 +30,7 @@ class InspectionFormBottomSheet extends StatelessWidget {
             color: const Color(0xFFEFF5FA),
             child: InspectionFormView(
               lead: lead,
-              // scrollController: scrollController,
+
               // onBack: () => Navigator.pop(context),
             ),
           ),
@@ -53,9 +53,14 @@ class InspectionFormView extends StatefulWidget {
 }
 
 class _InspectionFormViewState extends State<InspectionFormView> {
+  final ScrollController controller = ScrollController();
   String selectedTab = '2W';
 
   final tabs = ['2W', '4W', 'CV', 'CE', 'FE'];
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,61 +70,68 @@ class _InspectionFormViewState extends State<InspectionFormView> {
             title: '2W Inspection Form',
             subTitle: '${widget.lead.vehicleName} - ${widget.lead.regNo}'),
         Expanded(
-          child: SingleChildScrollView(
-            // controller: widget.scrollController,
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              children: [
-                // _tabBar(),
-                const SizedBox(height: 18),
-                _leadVehicleDetailsCard(),
-                const SizedBox(height: 18),
-                _documentVerificationCard(),
-                const SizedBox(height: 18),
-                _conditionSection(
-                  title: 'Exterior Body & Paint',
-                  items: [
-                    'Front Bonnet',
-                    'Front Bumper',
-                    'Head Lamps',
-                    'RH Fender & Doors',
-                    'Rear Bumper',
-                    'LH Fender & Doors',
-                    'Windshield & Glass',
-                    'Paint Condition',
-                  ],
-                ),
-                const SizedBox(height: 18),
-                _conditionSection(
-                  title: 'Interior',
-                  items: [
-                    'Steering',
-                    'Dashboard',
-                    'Interior Trims',
-                    'Seats Condition',
-                    'AC / Heater',
-                    'Infotainment',
-                  ],
-                ),
-                const SizedBox(height: 18),
-                _conditionSection(
-                  title: 'Engine, Chassis & Mechanical',
-                  items: [
-                    'Battery Condition',
-                    'Engine Condition',
-                    'Engine Function',
-                    'Transmission Condition',
-                    'Chassis & Frame',
-                    'Suspension',
-                    'Brakes',
-                    'Ignition & Fuel System',
-                  ],
-                ),
-                const SizedBox(height: 18),
-                const MandatoryPhotosCard(),
-                const SizedBox(height: 18),
-                const ValuationSummaryCard(),
-              ],
+          child: RawScrollbar(
+            controller: controller,
+            thumbColor: AppColors.primary,
+            thumbVisibility: true,
+            radius: const Radius.circular(8),
+            thickness: 4,
+            child: SingleChildScrollView(
+              controller: controller,
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  // _tabBar(),
+                  const SizedBox(height: 18),
+                  _leadVehicleDetailsCard(),
+                  const SizedBox(height: 18),
+                  _documentVerificationCard(),
+                  const SizedBox(height: 18),
+                  _conditionSection(
+                    title: 'Exterior Body & Paint',
+                    items: [
+                      'Front Bonnet',
+                      'Front Bumper',
+                      'Head Lamps',
+                      'RH Fender & Doors',
+                      'Rear Bumper',
+                      'LH Fender & Doors',
+                      'Windshield & Glass',
+                      'Paint Condition',
+                    ],
+                  ),
+                  const SizedBox(height: 18),
+                  _conditionSection(
+                    title: 'Interior',
+                    items: [
+                      'Steering',
+                      'Dashboard',
+                      'Interior Trims',
+                      'Seats Condition',
+                      'AC / Heater',
+                      'Infotainment',
+                    ],
+                  ),
+                  const SizedBox(height: 18),
+                  _conditionSection(
+                    title: 'Engine, Chassis & Mechanical',
+                    items: [
+                      'Battery Condition',
+                      'Engine Condition',
+                      'Engine Function',
+                      'Transmission Condition',
+                      'Chassis & Frame',
+                      'Suspension',
+                      'Brakes',
+                      'Ignition & Fuel System',
+                    ],
+                  ),
+                  const SizedBox(height: 18),
+                  const MandatoryPhotosCard(),
+                  const SizedBox(height: 18),
+                  const ValuationSummaryCard(),
+                ],
+              ),
             ),
           ),
         ),

@@ -1,3 +1,4 @@
+import 'package:cars_right/core/theme/app_theme.dart';
 import 'package:cars_right/core/widgets/header_bottom.dart';
 import 'package:cars_right/features/dashboard/home/presentation/widgets/header_count_card.dart';
 import 'package:flutter/material.dart';
@@ -29,17 +30,24 @@ class Notifications extends ConsumerWidget {
                 subTitle: 'Latest Valuator Updates',
               ),
               Expanded(
-                  child: ListView(
-                padding: const EdgeInsets.all(12),
-                children: [
-                  PendingFlowTile(
-                    isNoti: true,
-                    icon: Icons.car_crash,
-                    title: 'New Lead Assigned',
-                    subtitle: 'Hyundai i20 - Porur - High priority',
-                    notiSec: '2 seconds',
-                  ),
-                ],
+                  child: RawScrollbar(
+                controller: scrollController,
+                thumbColor: AppColors.primary,
+                thumbVisibility: true,
+                radius: const Radius.circular(8),
+                thickness: 4,
+                child: ListView(
+                  padding: const EdgeInsets.all(12),
+                  children: [
+                    PendingFlowTile(
+                      isNoti: true,
+                      icon: Icons.car_crash,
+                      title: 'New Lead Assigned',
+                      subtitle: 'Hyundai i20 - Porur - High priority',
+                      notiSec: '2 seconds',
+                    ),
+                  ],
+                ),
               ))
             ],
           ),

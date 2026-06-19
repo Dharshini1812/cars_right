@@ -51,54 +51,61 @@ class _VehicleVideoBottomSheetState extends State<VehicleVideoBottomSheet> {
                 subTitle: 'Record or upload vehicle walkaround video',
               ),
               Expanded(
-                child: SingleChildScrollView(
+                child: RawScrollbar(
                   controller: scrollController,
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      _videoPreviewBox(),
-                      const SizedBox(height: 18),
-                      _videoOption(
-                        icon: Icons.videocam_rounded,
-                        title: 'Record Video',
-                        source: ImageSource.camera,
-                      ),
-                      const SizedBox(height: 12),
-                      _videoOption(
-                        icon: Icons.video_library_rounded,
-                        title: 'Upload Video',
-                        source: ImageSource.gallery,
-                      ),
-                      const SizedBox(height: 20),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 56,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18),
+                  thumbColor: AppColors.primary,
+                  thumbVisibility: true,
+                  radius: const Radius.circular(8),
+                  thickness: 4,
+                  child: SingleChildScrollView(
+                    controller: scrollController,
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        _videoPreviewBox(),
+                        const SizedBox(height: 18),
+                        _videoOption(
+                          icon: Icons.videocam_rounded,
+                          title: 'Record Video',
+                          source: ImageSource.camera,
+                        ),
+                        const SizedBox(height: 12),
+                        _videoOption(
+                          icon: Icons.video_library_rounded,
+                          title: 'Upload Video',
+                          source: ImageSource.gallery,
+                        ),
+                        const SizedBox(height: 20),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 56,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18),
+                              ),
                             ),
-                          ),
-                          onPressed: selectedVideoPath == null
-                              ? null
-                              : () {
-                                  Navigator.pop(context, selectedVideoPath);
-                                },
-                          child: const Text(
-                            'Submit Video',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.white,
+                            onPressed: selectedVideoPath == null
+                                ? null
+                                : () {
+                                    Navigator.pop(context, selectedVideoPath);
+                                  },
+                            child: const Text(
+                              'Submit Video',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 12),
-                      _cancelButton(),
-                    ],
+                        const SizedBox(height: 12),
+                        _cancelButton(),
+                      ],
+                    ),
                   ),
                 ),
               ),

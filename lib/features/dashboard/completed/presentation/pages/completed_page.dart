@@ -1,3 +1,4 @@
+import 'package:cars_right/core/theme/app_theme.dart';
 import 'package:cars_right/features/dashboard/completed/presentation/widgets/completed_card.dart';
 import 'package:cars_right/features/dashboard/leads/presentation/widgets/lead_filter_card.dart';
 import 'package:cars_right/features/dashboard/leads/presentation/widgets/lead_search_bar.dart';
@@ -25,10 +26,9 @@ class _CompletedScreenState extends ConsumerState<CompletedScreen> {
             Text(
               "Pending Cases",
               style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w800,
-                color: Color(0xFF0B4F86),
-              ),
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.primary),
             ),
             Text(
               "Inspection queue",

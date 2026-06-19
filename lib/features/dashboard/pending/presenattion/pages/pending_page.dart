@@ -1,3 +1,4 @@
+import 'package:cars_right/core/theme/app_theme.dart';
 import 'package:cars_right/features/dashboard/pending/presenattion/widgets/returned_cases_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,7 +27,7 @@ class _PendingScreenState extends ConsumerState<PendingScreen> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w800,
-                    color: Color(0xFF0B4F86),
+                    color: AppColors.primary,
                   ),
                 ),
                 Text(

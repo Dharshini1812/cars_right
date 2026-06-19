@@ -1,3 +1,4 @@
+import 'package:cars_right/core/theme/app_theme.dart';
 import 'package:cars_right/core/widgets/header_bottom.dart';
 import 'package:flutter/material.dart';
 
@@ -18,36 +19,43 @@ class ReturnedCasesBottomSheet extends StatelessWidget {
               top: Radius.circular(34),
             ),
           ),
-          child: ListView(
+          child: RawScrollbar(
             controller: scrollController,
-            children: const [
-              Header(
-                title: 'Returned Cases',
-                subTitle: '2 leads need correction',
-              ),
-              Padding(
-                padding: EdgeInsets.all(12),
-                child: Column(
-                  children: [
-                    ReturnedCaseCard(
-                      image: 'images/onboarding/img2.webp',
-                      tag: '4W - RETURNED TODAY',
-                      title: 'Maruti Swift Dzire',
-                      description:
-                          'TN 09 AB 1234 - RC back image missing. Re-capture vehicle images and resubmit.',
-                    ),
-                    SizedBox(height: 16),
-                    ReturnedCaseCard(
-                      image: 'images/onboarding/img1.jpg',
-                      tag: '2W - RETURNED TODAY',
-                      title: 'Honda Activa 6G',
-                      description:
-                          'TN 22 GH 5566 - Odometer photo is blurred. Re-capture odometer and left side image.',
-                    ),
-                  ],
+            thumbColor: AppColors.primary,
+            thumbVisibility: true,
+            radius: const Radius.circular(8),
+            thickness: 4,
+            child: ListView(
+              controller: scrollController,
+              children: const [
+                Header(
+                  title: 'Returned Cases',
+                  subTitle: '2 leads need correction',
                 ),
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.all(12),
+                  child: Column(
+                    children: [
+                      ReturnedCaseCard(
+                        image: 'images/onboarding/img2.webp',
+                        tag: '4W - RETURNED TODAY',
+                        title: 'Maruti Swift Dzire',
+                        description:
+                            'TN 09 AB 1234 - RC back image missing. Re-capture vehicle images and resubmit.',
+                      ),
+                      SizedBox(height: 16),
+                      ReturnedCaseCard(
+                        image: 'images/onboarding/img1.jpg',
+                        tag: '2W - RETURNED TODAY',
+                        title: 'Honda Activa 6G',
+                        description:
+                            'TN 22 GH 5566 - Odometer photo is blurred. Re-capture odometer and left side image.',
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

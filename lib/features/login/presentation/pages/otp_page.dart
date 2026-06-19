@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:cars_right/features/login/presentation/logic/other/login_logic.dart';
 import 'package:cars_right/features/offline_camera/presentation/pages/offline_bottom_sheet.dart';
-import 'package:cars_right/features/login/presentation/provider.dart';
+import 'package:cars_right/features/login/presentation/logic/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 import '../../../../../core/theme/app_theme.dart';
 import '../widgets/offline_camera_tile.dart';
 import '../widgets/shield_icon.dart';
@@ -15,7 +17,7 @@ class OtpScreen extends ConsumerStatefulWidget {
   ConsumerState<OtpScreen> createState() => _OtpScreenState();
 }
 
-class _OtpScreenState extends ConsumerState<OtpScreen> {
+class _OtpScreenState extends ConsumerState<OtpScreen> with CodeAutoFill {
   void _showOfflineCameraSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -25,96 +27,37 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
     );
   }
 
-  // 4 separate controllers + focus nodes for the OTP boxes
-  final List<TextEditingController> _ctrlList =
-      List.generate(4, (_) => TextEditingController());
-  final List<FocusNode> _focusList = List.generate(4, (_) => FocusNode());
-
-  // Resend cooldown timer
-  int _resendSeconds = 30;
-  Timer? _resendTimer;
-  bool _isOtpValid = false;
-
   @override
   void initState() {
     super.initState();
-    _startResendTimer();
     // Auto-focus first box
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => _focusList[0].requestFocus(),
-    );
-    for (final controller in _ctrlList) {
-      controller.addListener(() {
-        setState(() {
-          _isOtpValid = _fullOtp.length == 4;
-        });
-      });
+    Future.microtask(() {
+      ref.read(loginLogicProvider).initOtp();
+    });
+
+    listenForCode();
+  }
+
+  @override
+  void codeUpdated() {
+    final otp = code ?? '';
+
+    if (otp.length == 4) {
+      ref.read(loginLogicProvider).setAutoOtp(otp);
+      ref.read(loginLogicProvider).verifyOtp();
     }
   }
 
   @override
   void dispose() {
-    for (final c in _ctrlList) {
-      c.dispose();
-    }
-    for (final f in _focusList) {
-      f.dispose();
-    }
-    _resendTimer?.cancel();
+    cancel();
     super.dispose();
-  }
-
-  void _startResendTimer() {
-    _resendSeconds = 30;
-    _resendTimer?.cancel();
-    _resendTimer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (_resendSeconds > 0) {
-        setState(() => _resendSeconds--);
-      } else {
-        _resendTimer?.cancel();
-      }
-    });
-  }
-
-  String get _fullOtp => _ctrlList.map((c) => c.text).join();
-
-  void _onOtpDigit(int index, String value) {
-    if (value.isNotEmpty && index < 3) {
-      _focusList[index + 1].requestFocus();
-    }
-    ref.read(authProvider.notifier).updateOtp(_fullOtp);
-  }
-
-  void _onBackspace(int index) {
-    if (index > 0) {
-      _focusList[index - 1].requestFocus();
-      _ctrlList[index - 1].clear();
-    }
-
-    ref.read(authProvider.notifier).updateOtp(_fullOtp);
-  }
-
-  Future<void> _verify() async {
-    if (_fullOtp.length < 4) return;
-    for (final f in _focusList) {
-      f.unfocus();
-    }
-    await ref.read(authProvider.notifier).verifyOtp();
-  }
-
-  Future<void> _resend() async {
-    if (_resendSeconds > 0) return;
-    for (final c in _ctrlList) {
-      c.clear();
-    }
-    ref.read(authProvider.notifier).updateOtp('');
-    await ref.read(authProvider.notifier).resendOtp();
-    _startResendTimer();
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(authProvider);
+    final logic = ref.watch(loginLogicProvider);
 
     // Navigate after successful verification
     ref.listen(authProvider, (prev, next) {
@@ -209,10 +152,10 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                     child: Padding(
                       padding: EdgeInsets.only(right: i < 3 ? 12 : 0),
                       child: _OtpBox(
-                        controller: _ctrlList[i],
-                        focusNode: _focusList[i],
-                        onChanged: (v) => _onOtpDigit(i, v),
-                        onBackspace: () => _onBackspace(i),
+                        controller: logic.otpCtrlList[i],
+                        focusNode: logic.otpFocusList[i],
+                        onChanged: (v) => logic.onOtpDigit(i, v),
+                        onBackspace: () => logic.onBackspace(i),
                       ),
                     ),
                   );
@@ -224,8 +167,8 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
               // ── Verify button ───────────────────────────────────────────
               _VerifyButton(
                 isLoading: state.isLoading,
-                isEnabled: _isOtpValid,
-                onTap: _verify,
+                isEnabled: logic.isOtpValid,
+                onTap: logic.verifyOtp,
               ),
 
               const SizedBox(height: 16),
@@ -233,7 +176,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
               // ── Resend ──────────────────────────────────────────────────
               Center(
                 child: GestureDetector(
-                  onTap: _resend,
+                  onTap: logic.resendOtp,
                   child: RichText(
                     text: TextSpan(
                       children: [
@@ -245,11 +188,11 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                               fontWeight: FontWeight.bold),
                         ),
                         TextSpan(
-                          text: _resendSeconds > 0
-                              ? 'RESEND OTP in ${_resendSeconds}s'
+                          text: logic.resendSeconds > 0
+                              ? 'RESEND OTP in ${logic.resendSeconds}s'
                               : 'RESEND OTP',
                           style: TextStyle(
-                            color: _resendSeconds > 0
+                            color: logic.resendSeconds > 0
                                 ? AppColors.textGrey
                                 : const Color(0xffff795f),
                             fontSize: 13,

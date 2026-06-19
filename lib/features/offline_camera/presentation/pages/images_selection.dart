@@ -250,153 +250,162 @@ class _FourWPhotosBottomSheetState
                   ),
                   const SizedBox(height: 10),
                   Expanded(
-                    child: SingleChildScrollView(
+                    child: RawScrollbar(
                       controller: scrollController,
-                      padding: const EdgeInsets.all(12),
-                      child: Column(
-                        children: [
-                          GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: shots.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 16,
-                              mainAxisSpacing: 16,
-                              childAspectRatio: 1.75,
-                            ),
-                            itemBuilder: (context, index) {
-                              final imagePath = selectedImages[index];
+                      thumbColor: AppColors.primary,
+                      thumbVisibility: true,
+                      radius: const Radius.circular(8),
+                      thickness: 4,
+                      child: SingleChildScrollView(
+                        controller: scrollController,
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          children: [
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: shots.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 16,
+                                mainAxisSpacing: 16,
+                                childAspectRatio: 1.75,
+                              ),
+                              itemBuilder: (context, index) {
+                                final imagePath = selectedImages[index];
 
-                              return InkWell(
-                                onTap: () {
-                                  // selectedImages[index] =
-                                  //     'images/onboarding/img1.jpg';
+                                return InkWell(
+                                  onTap: () {
+                                    // selectedImages[index] =
+                                    //     'images/onboarding/img1.jpg';
 
-                                  if (selectedImages[index] != null) {
-                                    _showPhotoPreview(context, index);
-                                  } else {
-                                    _showAddPhotoSheet(context, index);
-                                  }
-                                },
-                                child: DottedBorder(
-                                  borderType: BorderType.RRect,
-                                  color: const Color(0xFFBFD7EE),
-                                  strokeWidth: 1.5,
-                                  dashPattern: const [6, 4],
-                                  radius: const Radius.circular(18),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(18),
-                                    child: Container(
-                                      width: double.infinity,
-                                      color: Colors.white,
-                                      child: imagePath != null
-                                          ? Stack(
-                                              fit: StackFit.expand,
-                                              children: [
-                                                Image.file(
-                                                  File(imagePath.imagePath),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                Container(
-                                                  color: Colors.black
-                                                      .withOpacity(0.35),
-                                                ),
-                                                const Positioned(
-                                                  left: 12,
-                                                  bottom: 35,
-                                                  child: CircleAvatar(
-                                                    radius: 10,
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    child: Icon(
-                                                      Icons.check,
-                                                      size: 14,
-                                                      color: AppColors.primary,
+                                    if (selectedImages[index] != null) {
+                                      _showPhotoPreview(context, index);
+                                    } else {
+                                      _showAddPhotoSheet(context, index);
+                                    }
+                                  },
+                                  child: DottedBorder(
+                                    borderType: BorderType.RRect,
+                                    color: const Color(0xFFBFD7EE),
+                                    strokeWidth: 1.5,
+                                    dashPattern: const [6, 4],
+                                    radius: const Radius.circular(18),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(18),
+                                      child: Container(
+                                        width: double.infinity,
+                                        color: Colors.white,
+                                        child: imagePath != null
+                                            ? Stack(
+                                                fit: StackFit.expand,
+                                                children: [
+                                                  Image.file(
+                                                    File(imagePath.imagePath),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                  Container(
+                                                    color: Colors.black
+                                                        .withOpacity(0.35),
+                                                  ),
+                                                  const Positioned(
+                                                    left: 12,
+                                                    bottom: 35,
+                                                    child: CircleAvatar(
+                                                      radius: 10,
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      child: Icon(
+                                                        Icons.check,
+                                                        size: 14,
+                                                        color:
+                                                            AppColors.primary,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                Positioned(
-                                                  left: 12,
-                                                  bottom: 12,
-                                                  child: Text(
+                                                  Positioned(
+                                                    left: 12,
+                                                    bottom: 12,
+                                                    child: Text(
+                                                      shots[index],
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w900,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            : Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  const Icon(
+                                                    Icons.camera_alt_rounded,
+                                                    size: 22,
+                                                    color: Color(0xFF8FA1B8),
+                                                  ),
+                                                  const SizedBox(height: 7),
+                                                  Text(
                                                     shots[index],
                                                     style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 12,
+                                                      fontSize: 14,
                                                       fontWeight:
-                                                          FontWeight.w900,
+                                                          FontWeight.w800,
+                                                      color: AppColors.textGrey,
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            )
-                                          : Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                const Icon(
-                                                  Icons.camera_alt_rounded,
-                                                  size: 22,
-                                                  color: Color(0xFF8FA1B8),
-                                                ),
-                                                const SizedBox(height: 7),
-                                                Text(
-                                                  shots[index],
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w800,
-                                                    color: AppColors.textGrey,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                                ],
+                                              ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          ),
-                          const SizedBox(height: 20),
-                          SizedBox(
-                            width: double.infinity,
-                            height: 56,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primary,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                elevation: 0,
-                              ),
-                              onPressed: () async {
-                                final videoPath =
-                                    await showModalBottomSheet<String>(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  backgroundColor: Colors.transparent,
-                                  builder: (_) =>
-                                      const VehicleVideoBottomSheet(),
                                 );
-
-                                if (videoPath != null) {
-                                  // save videoPath here
-                                  print(videoPath);
-                                }
                               },
-                              child: const Text(
-                                'Next',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.white,
+                            ),
+                            const SizedBox(height: 20),
+                            SizedBox(
+                              width: double.infinity,
+                              height: 56,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.primary,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  elevation: 0,
+                                ),
+                                onPressed: () async {
+                                  final videoPath =
+                                      await showModalBottomSheet<String>(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    backgroundColor: Colors.transparent,
+                                    builder: (_) =>
+                                        const VehicleVideoBottomSheet(),
+                                  );
+
+                                  if (videoPath != null) {
+                                    // save videoPath here
+                                    print(videoPath);
+                                  }
+                                },
+                                child: const Text(
+                                  'Next',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w900,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                        ],
+                            const SizedBox(height: 20),
+                          ],
+                        ),
                       ),
                     ),
                   ),
